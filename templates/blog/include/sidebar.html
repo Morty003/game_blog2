@@ -1,0 +1,78 @@
+{% load home_tags %}
+{% load mptt_tags %}
+<div class="col-lg-4 sidebar">
+    <div class="sb-widget">
+        <form action="{% url 'search' %}" method="get" class="sb-search">
+            <input type="text" placeholder="Search" name="q">
+        </form>
+    </div>
+    <div class="sb-widget">
+        <h2 class="sb-title">Categories</h2>
+        <ul class="sb-cata-list">
+            {% get_list_category as list_category %}
+            {% for category in list_category %}
+                {% if category.post.count != 0 %}
+                    <li><a href={% url 'post_list' category.slug %}>{{ category.name }}<span>{{ category.post.count }}</span></a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="sb-widget">
+        <h2 class="sb-title">Latest News</h2>
+        <div class="latest-news-widget">
+            {% get_last_posts as list_last_post %}
+            {% for post in list_last_post %}
+                <div class="ln-item">
+                    <img src={{ post.image.url }} alt="">
+                    <div class="ln-text">
+                        <div class="ln-date">{{ post.create_at | date:'M d, Y' }}</div>
+                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                        <div class="ln-metas">
+                            <div class="ln-meta">{{ post.author }}</div>
+                            <div class="ln-meta">in <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a></div>
+                            <div class="ln-meta"> {{ post.comment.count }} Comments</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="sb-widget">
+        <h2 class="sb-title">Latest Comments</h2>
+        <div class="latest-comments-widget">
+            {% get_last_comments as list_last_comments %}
+            {% for comment in list_last_comments %}
+                <div class="lc-item">
+                    <img src="{{ comment.post.image.url }}" alt="">
+                    <div class="lc-text">
+                        <h6>{{ comment.name }}<span> In </span><a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title }}</a></h6>
+                        <div class="lc-date">{{ comment.create_at | date:'M d, Y' }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="sb-widget">
+        <h2 class="sb-title">Top 5 this week</h2>
+        <div class="latest-news-widget top-five">
+            {% get_top_of_week as top_list %}
+            {% for post in top_list %}
+                <div class="ln-item">
+                    <div class="ln-index">{{ forloop.counter }}</div>
+                    <img src="{{ post.image.url }}" alt="">
+                    <div class="ln-text">
+                        <div class="ln-date">{{ post.create_at | date:'M d, Y' }}</div>
+                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                        <div class="ln-metas">
+                            <div class="ln-meta">{{ post.author }}</div>
+                            <div class="ln-meta">in <a href="#">{{ post.category }}</a></div>
+                            <div class="ln-meta">{{ post.comment.count }} Comments</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+

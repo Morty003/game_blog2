@@ -1,0 +1,93 @@
+{% load static %}
+{% load home_tags %}
+{% load social_tags %}
+<!-- Footer section -->
+<div class="footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="footer-widget">
+                    <div class="about-widget">
+                        <img src={% static "img/logo.png" %} alt="">
+                        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo. Morbi id dictum quam, ut commodo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6">
+                <div class="footer-widget">
+                    <h2 class="fw-title">Links</h2>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'reviews' %}">Latest news</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="footer-widget fw-latest-post">
+                    <h2 class="fw-title">Last Comments</h2>
+                    <div class="latest-comments-widget">
+                        {% get_last_comments as list_last_comments %}
+                        {% for comment in list_last_comments %}
+                            {% if forloop.counter < 5 %}
+                                <div class="lc-item">
+                                    <img src="{{ comment.post.image.url }}" alt="">
+                                    <div class="lc-text">
+                                        <h6>{{ comment.name }}<span> In </span><a href="{{ comment.post.get_absolute_url }}">{{ comment.post.title }}</a></h6>
+                                        <div class="lc-date">{{ comment.create_at | date:'M d, Y' }}</div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="footer-widget fw-latest-post">
+                    <h2 class="fw-title">Last Posts</h2>
+                    <div class="latest-news-widget">
+                        {% get_last_posts as list_last_post %}
+                        {% for post in list_last_post %}
+                            {% if forloop.counter < 4 %}
+                                <div class="ln-item">
+                                    <div class="ln-text">
+                                        <div class="ln-date">{{ post.create_at | date:'M d, Y' }}</div>
+                                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                                        <div class="ln-metas">
+                                            <div class="ln-meta">{{ post.author }}</div>
+                                            <div class="ln-meta">in <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a></div>
+                                            <div class="ln-meta">{{ post.category.count }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="social-links-warp">
+        <div class="container">
+            <div class="social-links">
+                {% get_social_links as social_links %}
+                {% for item in social_links %}
+                    <a href="{{ item.link }}"><img src="{{ item.icon.url }}"><span>{{ item.name }}</span></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer section end -->
+
+<!--====== Javascripts & Jquery ======-->
+<script src={% static "js/jquery-3.2.1.min.js" %}></script>
+<script src={% static "js/bootstrap.min.js" %}></script>
+<script src={% static "js/jquery.slicknav.js" %}></script>
+<script src={% static "js/owl.carousel.min.js" %}></script>
+<script src={% static "js/circle-progress.min.js" %}></script>
+<script src={% static "js/jquery.magnific-popup.min.js" %}></script>
+<script src={% static "js/main.js" %}></script>
+
+</body>
+</html>

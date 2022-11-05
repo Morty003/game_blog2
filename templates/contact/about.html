@@ -1,0 +1,38 @@
+{% load social_tags %}
+{% include 'header.html' %}
+<section class="about spad">
+    <div class="container">
+        <div class="about__text">
+            <h2>About Us</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about__pic__item__large">
+                        <img src="{{ about.image.url}}" alt="">
+                    </div>
+                    {#          <div class="about__pic">#}
+                    {#              <div class="about__pic__item">#}
+                    {#                <img src="{{ item.image.url }}" alt="">#}
+                    {#              </div>#}
+
+                    {#          </div>#}
+                </div>
+                <div class="col-lg-6">
+                    <div class="about__right__text">
+                        {{ about.text|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comments">
+            <h5>Feedback</h5>
+            <form action="{% url 'feedback' %}" method="post" class="comment-form">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="site-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% include 'footer.html' %}

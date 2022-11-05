@@ -1,0 +1,73 @@
+{% include 'header.html' %}
+{% load home_tags %}
+{% load static %}
+<!-- Hero section -->
+<section class="hero-section">
+    <div class="hero-slider owl-carousel">
+        {% get_last_posts as list_last_post %}
+        {% for post in list_last_post %}
+            <div class="hero-item set-bg" data-setbg="{{ post.image.url }}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1">
+                            <h2><a href="{{ post.get_absolute_url }}">{{ post.title }} </a></h2>
+                            <p> {{ post.text | slice:':100' }}... </p>
+                            <a href="{{ post.get_absolute_url }}" class="site-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</section>
+<!-- Hero section end -->
+
+<!-- Blog section -->
+<section class="blog-section spad">
+    <div class="container">
+        <div class="row">
+            {% for post in post_list %}
+                {% if forloop.first %}
+                    <div class="col-lg-8 blog-posts">
+                    <div class="blog-post featured-post">
+                        <img src={{ post.image.url }} alt="">
+                        <div class="post-date">{{ post.create_at | date:'M d, Y'}}</div>
+                        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }} </a></h3>
+                        <div class="post-metas">
+                            <div class="post-meta">{{ post.author }}</div>
+                            <div class="post-meta">in <a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a></div>
+                            <div class="post-meta"> {{ post.comment.count }} Comments</div>
+                        </div>
+                        <p>{{ post.text| slice:':250' }}...</p>
+                        <a href="{{ post.get_absolute_url }}" class="site-btn">Read More</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="row">
+                {% for post in post_list %}
+                    {% if forloop.counter != 1 and forloop.counter < 6%}
+                        <div class="col-md-6">
+                            <div class="blog-post">
+                                <img src={{ post.image.url }} alt="">
+                                <div class="post-date">{{ post.create_at | date:'M d, Y' }}</div>
+                                <h4><a href="{{ post.get_absolute_url }}">{{ post.title }} </a></h4>
+                                <div class="post-metas">
+                                    <div class="post-meta">{{ post.author }}</div>
+                                    <div class="post-meta">in <a href="{{ category.get_absolute_url }}">{{ post.category }}</a></div>
+                                    <div class="post-meta">{{ post.comment.count }} Comments</div>
+                                </div>
+                                <p>{{ post.text | slice:':250' }}...</p>
+                                <a href="{{ post.get_absolute_url }}" class="read-more">Read More</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            </div>
+            {% include 'blog/include/sidebar.html' %}
+        </div>
+    </div>
+</section>
+<!-- Blog section end -->
+{% include 'footer.html' %}

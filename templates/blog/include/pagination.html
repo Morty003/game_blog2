@@ -1,0 +1,17 @@
+{% if page_obj.has_other_pages %}
+    <div class="site-pagination">
+        {% if page_obj.has_previous %}
+            <a href="?{{ request.path }}&{{ q }}&page={{ page_obj.previous_page_number }}" class="sp-prev">Previous</a>
+        {% endif %}
+        {% for page in paginator.page_range %}
+            {% if page_obj.number == page %}
+                <a href="?page={{ page }}&{{ q }}" class="active">{{ page }}</a>
+            {% elif page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+                <a href="?page={{ page }}&{{ q }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <a href="?{{ request.path }}&{{ q }}&page={{ page_obj.next_page_number }}" class="sp-next">Next</a>
+        {% endif %}
+    </div>
+{% endif %}
