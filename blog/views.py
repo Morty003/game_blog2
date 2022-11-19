@@ -23,9 +23,6 @@ class ReviewView(ListView):
     paginate_by = 5
     template_name = 'blog/post_list.html'
 
-    def get_queryset(self):
-        return Post.objects.all()
-
 
 class PostDetailView(DetailView):
     model = Post
@@ -63,5 +60,6 @@ class Search(ListView):
         context = super().get_context_data(*args, **kwargs)
         context['q'] = f"q={self.request.GET.get('q')}"
         return context
+
 
 
